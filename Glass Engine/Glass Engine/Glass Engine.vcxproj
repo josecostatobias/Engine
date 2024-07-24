@@ -22,8 +22,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0ff6ae32-9348-4d12-ad7b-a16c336167f2}</ProjectGuid>
-    <RootNamespace>GlassPixelEngine</RootNamespace>
+    <ProjectGuid>{ae44bd5a-1acb-40da-a4e1-ddbf9fdc76ef}</ProjectGuid>
+    <RootNamespace>GlassEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
