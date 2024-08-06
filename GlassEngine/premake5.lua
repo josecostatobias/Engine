@@ -21,6 +21,7 @@ project "GlassEngine"
     includedirs
     {
         "include",
+        "%{include_dir.SDL3}"
     }
 
 

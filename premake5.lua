@@ -1,6 +1,5 @@
 include_dir = {}
-
-
+include_dir["SDL3"]         = "%{wks.location}/ThirdParty/SDL/include"
 
 extern_lib_dir = {}
 
