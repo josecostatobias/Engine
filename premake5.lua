@@ -2,6 +2,7 @@ include_dir = {}
 include_dir["SDL3"]         = "%{wks.location}/ThirdParty/SDL/include"
 
 extern_lib_dir = {}
+extern_lib_dir["SDL3"]         = "%{wks.location}/ThirdParty/SDL/VisualC/x64/Debug"
 
 
 workspace "GlassEngine"

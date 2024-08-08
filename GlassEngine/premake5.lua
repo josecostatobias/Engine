@@ -7,8 +7,8 @@ project "GlassEngine"
     pchsource "src/gpch.cpp"
 
     
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("%{wks.location}/obj/" .. outputdir .. "/%{prj.name}")
+    targetdir ("%{wks.location}/Build/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{wks.location}/Build/obj/" .. outputdir .. "/%{prj.name}")
 
     
     files
@@ -24,7 +24,19 @@ project "GlassEngine"
         "%{include_dir.SDL3}"
     }
 
+    libdirs 
+    {
+        "%{extern_lib_dir.SDL3}"
+    }
 
+     postbuildcommands
+     {
+        "copy %{wks.location}ThirdParty\\SDL\\VisualC\\x64\\Debug\\SDL3.dll $(SolutionDir)GlassEngine\\SDL3.dll"
+     }
+     links
+     {
+        "SDL3.lib"
+     }
 
     filter "system:windows"
     systemversion "latest"

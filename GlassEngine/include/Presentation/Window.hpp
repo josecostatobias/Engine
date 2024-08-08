@@ -2,23 +2,26 @@
 
 #ifndef GE_WINDOW_HPP
 #define	GE_WINDOW_HPP
-#include "Core/Macro.hpp"
 #include "SDL3/SDL.h"
+#include "Core/Macro.hpp"
 #include "Core/CommonTypes.hpp"
+
 
 class UWindow
 {
 public:
 
 	DEFAULT_CONSTTRUCTORS(UWindow)
-	void initialize();
+	void Initialize();
+	bool ShouldClose();
+	void PollEvents();
 protected:
 private:
 	SDL_Event sdlEvent;
 	SDL_Window* sdlWindow = nullptr;
-	SDL_Surface* sdlSurface = nullptr;
 	SDL_Renderer* sdlRenderer = nullptr;
-	SDL_GLContext sdlGLContext;
+	bool bShouldClose = false;
+;
 };
 
 

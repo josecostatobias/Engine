@@ -4,11 +4,12 @@
 *.vcxproj.filters
 
 # Diretórios de construção comuns
-build/
+Build/
 bin/
 obj/
 Debug/
 Release/
+*.sln
 
 # Arquivos de log
 *.log

@@ -1,15 +1,12 @@
 #include "gpch.hpp"
 #include "Runtime/Application.hpp"
-#include "SDL3/SDL.h"
-#include "Presentation/Window.hpp"
-int main() {
+#include "SDL3/SDL_main.h"
 
-	UWindow* app = new UWindow();
+int main(int argc, char* argv []) {
+
+	Application* app = new Application();
 	
-	app->initialize();
-	while (true){
-		
-	}
+	app->Run();
 	delete app;
 	return 0;
 }

@@ -1,11 +1,32 @@
 #include "gpch.hpp"
 #include "Runtime/Application.hpp"
+#include "Presentation/Window.hpp"
 
-void Application::run()
+Application::Application()
 {
-	int a = 0;
-	while (a == 1000)
-	{
-		a++;
+
+}
+
+Application::~Application()
+{
+	delete Window;
+}
+
+void Application::Run()
+{
+	Window = new UWindow();
+	Window->Initialize();
+
+
+
+	GameLoop();
+}
+
+void Application::GameLoop()
+{
+	while(!Window->ShouldClose()) {
+		Window->PollEvents();
+
+		//iugum
 	}
 }
