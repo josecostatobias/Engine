@@ -1,5 +1,10 @@
 #include "gpch.hpp"
 #include "Presentation/Window.hpp"
+
+#include "Imgui.h"
+#include "backends/imgui_impl_sdl3.h"
+#include "backends/imgui_impl_sdlrenderer3.h"
+
 UWindow::UWindow() {
 
 }
@@ -28,6 +33,14 @@ void UWindow::Initialize()
 		SDL_Log("Rendere não foi criado!");
 		return;
 	}
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& IO = ImGui::GetIO();
+	(void)IO;
+	IO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	ImGui::StyleColorsDark();
+	ImGui_ImplSDL3_InitForSDLRenderer(sdlWindow, sdlRenderer);
+	ImGui_ImplSDLRenderer3_Init(sdlRenderer);
 }
 
 bool UWindow::ShouldClose()
@@ -39,6 +52,8 @@ bool UWindow::ShouldClose()
 void UWindow::PollEvents()
 {
 	while (SDL_PollEvent(&sdlEvent)) {
+
+		ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
 		switch (sdlEvent.type)
 		{
 		case SDL_EVENT_QUIT:
@@ -53,8 +68,25 @@ void UWindow::PollEvents()
 		}
 	}
 	
-	SDL_SetRenderDrawColor(sdlRenderer,0,0,0,0xff);
+	ImGui_ImplSDLRenderer3_NewFrame();
+	ImGui_ImplSDL3_NewFrame();
+
+	ImGui::NewFrame();
+	{
+		ImGui::Begin("Hello World");
+		{
+			if (ImGui::Button("Sair")) {
+				bShouldClose = true;
+			}
+			
+		}
+		ImGui::End();
+	}
+	ImGui::Render();
+
+	SDL_SetRenderDrawColor(sdlRenderer,25,25,255,0xff);
 	SDL_RenderClear(sdlRenderer);
+	ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(),sdlRenderer);
 	SDL_RenderPresent(sdlRenderer);
 	SDL_Delay(1);
 		

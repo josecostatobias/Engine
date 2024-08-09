@@ -5,6 +5,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GlassEngine", "GlassEngine\GlassEngine.vcxproj", "{15C7AC1E-817C-2514-0A71-1FEB76251C18}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{376E56B9-2367-750B-4C99-5A9038F15417}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Imgui", "ThirdParty\Imgui\Imgui.vcxproj", "{E087650D-4C9C-8DBE-151E-311E81F189EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,11 +19,16 @@ Global
 		{15C7AC1E-817C-2514-0A71-1FEB76251C18}.Debug|x64.Build.0 = Debug|x64
 		{15C7AC1E-817C-2514-0A71-1FEB76251C18}.Release|x64.ActiveCfg = Release|x64
 		{15C7AC1E-817C-2514-0A71-1FEB76251C18}.Release|x64.Build.0 = Release|x64
+		{E087650D-4C9C-8DBE-151E-311E81F189EF}.Debug|x64.ActiveCfg = Debug|x64
+		{E087650D-4C9C-8DBE-151E-311E81F189EF}.Debug|x64.Build.0 = Debug|x64
+		{E087650D-4C9C-8DBE-151E-311E81F189EF}.Release|x64.ActiveCfg = Release|x64
+		{E087650D-4C9C-8DBE-151E-311E81F189EF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{15C7AC1E-817C-2514-0A71-1FEB76251C18} = {8249BEE1-6EAC-4D86-1732-863C03741909}
+		{E087650D-4C9C-8DBE-151E-311E81F189EF} = {376E56B9-2367-750B-4C99-5A9038F15417}
 	EndGlobalSection
 EndGlobal

@@ -42,15 +42,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug-windows-x86_64\GlassEngine\</OutDir>
-    <IntDir>..\obj\Debug-windows-x86_64\GlassEngine\</IntDir>
+    <OutDir>..\Build\bin\Debug-windows-x86_64\GlassEngine\</OutDir>
+    <IntDir>..\Build\obj\Debug-windows-x86_64\GlassEngine\</IntDir>
     <TargetName>GlassEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release-windows-x86_64\GlassEngine\</OutDir>
-    <IntDir>..\obj\Release-windows-x86_64\GlassEngine\</IntDir>
+    <OutDir>..\Build\bin\Release-windows-x86_64\GlassEngine\</OutDir>
+    <IntDir>..\Build\obj\Release-windows-x86_64\GlassEngine\</IntDir>
     <TargetName>GlassEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -60,7 +60,7 @@
       <PrecompiledHeaderFile>gpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;DEBUG;LOG_WARNING;LOG_INFORMATION;LOG_DEBUG;LOG_TRACE;LOG_DEFAULT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -73,7 +73,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\ThirdParty\SDL\VisualC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)ThirdParty\SDL\VisualC\x64\Debug\SDL3.dll $(SolutionDir)GlassEngine\SDL3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -81,7 +86,7 @@
       <PrecompiledHeaderFile>gpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -97,7 +102,12 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\ThirdParty\SDL\VisualC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)ThirdParty\SDL\VisualC\x64\Debug\SDL3.dll $(SolutionDir)GlassEngine\SDL3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\CommonTypes.hpp" />
@@ -113,6 +123,11 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Imgui\Imgui.vcxproj">
+      <Project>{E087650D-4C9C-8DBE-151E-311E81F189EF}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

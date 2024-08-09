@@ -21,7 +21,8 @@ project "GlassEngine"
     includedirs
     {
         "include",
-        "%{include_dir.SDL3}"
+        "%{include_dir.SDL3}",
+        "%{include_dir.Imgui}"
     }
 
     libdirs 
@@ -35,7 +36,8 @@ project "GlassEngine"
      }
      links
      {
-        "SDL3.lib"
+        "SDL3.lib",
+        "Imgui"
      }
 
     filter "system:windows"
