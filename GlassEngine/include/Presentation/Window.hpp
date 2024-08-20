@@ -5,6 +5,7 @@
 #include "SDL3/SDL.h"
 #include "Core/Macro.hpp"
 #include "Core/CommonTypes.hpp"
+#include "Components/FileSystem.hpp"
 
 
 class UWindow
@@ -21,7 +22,7 @@ private:
 	SDL_Window* sdlWindow = nullptr;
 	SDL_Renderer* sdlRenderer = nullptr;
 	bool bShouldClose = false;
-;
+	UFileSystem fileSystem;
 };
 
 

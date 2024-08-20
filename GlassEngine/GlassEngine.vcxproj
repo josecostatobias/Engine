@@ -110,6 +110,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\FileSystem.hpp" />
     <ClInclude Include="include\Core\CommonTypes.hpp" />
     <ClInclude Include="include\Core\Macro.hpp" />
     <ClInclude Include="include\Presentation\Window.hpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="include\gpch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\FileSystem.cpp" />
     <ClCompile Include="src\Presentation\Window.cpp" />
     <ClCompile Include="src\Runtime\Application.cpp" />
     <ClCompile Include="src\gpch.cpp">

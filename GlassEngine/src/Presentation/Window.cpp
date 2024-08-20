@@ -78,6 +78,9 @@ void UWindow::PollEvents()
 			if (ImGui::Button("Sair")) {
 				bShouldClose = true;
 			}
+			ImGui::Separator();
+			ImGui::Text("File System:");
+			fileSystem.ShowDirectoryTree(); // Exibe o sistema de arquivos
 			
 		}
 		ImGui::End();
