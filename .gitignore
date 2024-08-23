@@ -1,0 +1,36 @@
+# Diretório de construção do Visual Studio
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+
+# Diretórios de construção comuns
+Build/
+bin/
+obj/
+Debug/
+Release/
+*.sln
+
+# Arquivos de log
+*.log
+
+# Arquivos do sistema operacional
+Thumbs.db
+.DS_Store
+
+# Arquivos temporários e de backup
+*~
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Arquivos específicos do C++
+*.o
+*.obj
+*.dll
+*.exe
+*.so
+*.dylib
+*.lib
+*.a
