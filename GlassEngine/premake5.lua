@@ -22,12 +22,14 @@ project "GlassEngine"
     {
         "include",
         "%{include_dir.SDL3}",
-        "%{include_dir.Imgui}"
+        "%{include_dir.Imgui}",
+        "%{include_dir.VulkanSDK}"
     }
 
     libdirs 
     {
-        "%{extern_lib_dir.SDL3}"
+        "%{extern_lib_dir.SDL3}",
+        "%{extern_lib_dir.VulkanSDK}"
     }
 
      postbuildcommands
@@ -37,7 +39,8 @@ project "GlassEngine"
      links
      {
         "SDL3.lib",
-        "Imgui"
+        "Imgui",
+        "vulkan-1.lib"
      }
 
     filter "system:windows"

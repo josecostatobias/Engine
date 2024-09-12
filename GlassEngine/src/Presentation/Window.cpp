@@ -9,88 +9,112 @@ UWindow::UWindow() {
 
 }
 UWindow::~UWindow() {
-	SDL_DestroyRenderer(sdlRenderer);
-	SDL_DestroyWindow(sdlWindow);
-
+    SDL_DestroyRenderer(sdlRenderer);
+    SDL_DestroyWindow(sdlWindow);
 }
 
 void UWindow::Initialize()
 {
-	int flags = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
-	if (flags < 0) {
-		SDL_Log("SDL não inicializado");
-		return;
-	}
+    int flags = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+    if (flags < 0) {
+        SDL_Log("SDL nï¿½o inicializado");
+        return;
+    }
 
-	sdlWindow = SDL_CreateWindow("GlassEngine", 1200, 720, flags);
-	if (!sdlWindow) {
-		SDL_Log("Janela não foi criada!");
-		return;
-	}
+    // Criaï¿½ï¿½o da janela principal
+    sdlWindow = SDL_CreateWindow("GlassEngine", 1200, 720, flags);
+    if (!sdlWindow) {
+        SDL_Log("Janela nï¿½o foi criada!");
+        return;
+    }
 
-	sdlRenderer = SDL_CreateRenderer(sdlWindow, NULL);
-	if (!sdlWindow) {
-		SDL_Log("Rendere não foi criado!");
-		return;
-	}
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& IO = ImGui::GetIO();
-	(void)IO;
-	IO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	ImGui::StyleColorsDark();
-	ImGui_ImplSDL3_InitForSDLRenderer(sdlWindow, sdlRenderer);
-	ImGui_ImplSDLRenderer3_Init(sdlRenderer);
+    // Renderizador SDL
+    sdlRenderer = SDL_CreateRenderer(sdlWindow, NULL);
+    if (!sdlWindow) {
+        SDL_Log("Rendere nï¿½o foi criado!");
+        return;
+    }
+
+    // Inicializaï¿½ï¿½o do ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& IO = ImGui::GetIO();
+    (void)IO;
+    IO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    ImGui::StyleColorsDark();
+    ImGui_ImplSDL3_InitForSDLRenderer(sdlWindow, sdlRenderer);
+    ImGui_ImplSDLRenderer3_Init(sdlRenderer);
 }
 
 bool UWindow::ShouldClose()
 {
-
-	return bShouldClose;
+    return bShouldClose;
 }
 
 void UWindow::PollEvents()
 {
-	while (SDL_PollEvent(&sdlEvent)) {
+    while (SDL_PollEvent(&sdlEvent)) {
 
-		ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
-		switch (sdlEvent.type)
-		{
-		case SDL_EVENT_QUIT:
-			bShouldClose = true;
-			break;
-		case SDL_EVENT_KEY_DOWN:
-			if(sdlEvent.key.key == SDLK_ESCAPE)
-			bShouldClose = true;
-			break;
-		default:
-			break;
-		}
-	}
-	
-	ImGui_ImplSDLRenderer3_NewFrame();
-	ImGui_ImplSDL3_NewFrame();
+        ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
+        switch (sdlEvent.type)
+        {
+        case SDL_EVENT_QUIT:
+            bShouldClose = true;
+            break;
+        case SDL_EVENT_KEY_DOWN:
+            if (sdlEvent.key.key == SDLK_ESCAPE)
+                bShouldClose = true;
+            break;
+        default:
+            break;
+        }
+    }
 
-	ImGui::NewFrame();
-	{
-		ImGui::Begin("Hello World");
-		{
-			if (ImGui::Button("Sair")) {
-				bShouldClose = true;
-			}
-			ImGui::Separator();
-			ImGui::Text("File System:");
-			fileSystem.ShowDirectoryTree(); // Exibe o sistema de arquivos
-			
-		}
-		ImGui::End();
-	}
-	ImGui::Render();
+    // Inicia novos frames do ImGui e SDL
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
 
-	SDL_SetRenderDrawColor(sdlRenderer,25,25,255,0xff);
-	SDL_RenderClear(sdlRenderer);
-	ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(),sdlRenderer);
-	SDL_RenderPresent(sdlRenderer);
-	SDL_Delay(1);
-		
+    ImGui::NewFrame();
+
+    // Exibe a janela "Hello World"
+    {
+        ImGui::Begin("Pasta");
+        {
+            if (ImGui::Button("Sair")) {
+                bShouldClose = true;
+            }
+            ImGui::Separator();
+            ImGui::Text("File System:");
+            fileSystem.ShowDirectoryTree(); // Exibe o sistema de arquivos
+        }
+        ImGui::End();
+    }
+
+    // Exibe a nova janela "vulkanjanelar"
+    {
+        ImGui::Begin("VulkanJanelar"); // Cria a janela Vulkan
+        {
+            ImGui::Text("Aqui sera renderizado o conteï¿½do do Vulkan.");
+        }
+        ImGui::End();
+    } 
+
+    {
+        ImGui::Begin("Pastas"); // Cria a janela Vulkan
+        {
+            ImGui::Text("Aqui sera renderizado o conteï¿½do do pasta.");
+            ImGui::Separator();
+            ImGui::Text("File System:");
+            fileSystem.ShowDirectoryTree();
+        }
+        ImGui::End();
+    }
+
+    // Renderiza os elementos
+    ImGui::Render();
+    SDL_SetRenderDrawColor(sdlRenderer, 25, 25, 255, 0xff);
+    SDL_RenderClear(sdlRenderer);
+    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), sdlRenderer);
+    SDL_RenderPresent(sdlRenderer);
+    SDL_Delay(1);
 }
