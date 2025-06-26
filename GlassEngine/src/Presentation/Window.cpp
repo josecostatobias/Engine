@@ -1,120 +1,102 @@
 #include "gpch.hpp"
 #include "Presentation/Window.hpp"
-
+#include "Context/OpenGLContext.hpp"
 #include "Imgui.h"
 #include "backends/imgui_impl_sdl3.h"
-#include "backends/imgui_impl_sdlrenderer3.h"
+#include <backends/imgui_impl_opengl3.h>
+#include <UIManager/UIManager.hpp>
 
-UWindow::UWindow() {
+UWindow::UWindow() : sdlEvent{} {
 
 }
+
 UWindow::~UWindow() {
-    SDL_DestroyRenderer(sdlRenderer);
-    SDL_DestroyWindow(sdlWindow);
+	if (openGLContext) {
+		delete openGLContext; // Destroi o contexto OpenGL
+	}
+	//SDL_DestroyRenderer(sdlRenderer);
+	if (sdlWindow) {
+		SDL_DestroyWindow(sdlWindow);
+	}
+	if (SDL_WasInit(SDL_INIT_VIDEO)) {
+		SDL_Quit();
+	}
+
 }
 
 void UWindow::Initialize()
 {
-    int flags = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
-    if (flags < 0) {
-        SDL_Log("SDL n�o inicializado");
-        return;
-    }
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0) {
+		SDL_Log("Erro ao inicializar SDL: %s", SDL_GetError());
+		return;
+	}
 
-    // Cria��o da janela principal
-    sdlWindow = SDL_CreateWindow("GlassEngine", 1200, 720, flags);
-    if (!sdlWindow) {
-        SDL_Log("Janela n�o foi criada!");
-        return;
-    }
+	// Criação da janela principal
+	sdlWindow = SDL_CreateWindow("GlassEngine", 1200, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	if (!sdlWindow) {
+		SDL_Log("Janela não foi criada: %s", SDL_GetError());
+		return;
+	}
 
-    // Renderizador SDL
-    sdlRenderer = SDL_CreateRenderer(sdlWindow, NULL);
-    if (!sdlWindow) {
-        SDL_Log("Rendere n�o foi criado!");
-        return;
-    }
+	// Inicializa��o do ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& IO = ImGui::GetIO();
+	(void)IO;
+	IO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Habilita navegação por teclado
+	ImGui::StyleColorsDark();
+	openGLContext = new OpenGLContext(sdlWindow);
+	try {
+		openGLContext->Initialize();
+	}
+	catch (const std::exception& e) {
+		SDL_Log("Erro durante inicialização do OpenGL: %s", e.what());
+		return;
+	}
+	ImGui_ImplSDL3_InitForOpenGL(sdlWindow, openGLContext->GetGLContext());
+	ImGui_ImplOpenGL3_Init("#version 450");
+	// Inicialização do contexto OpenGL
 
-    // Inicializa��o do ImGui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& IO = ImGui::GetIO();
-    (void)IO;
-    IO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    ImGui::StyleColorsDark();
-    ImGui_ImplSDL3_InitForSDLRenderer(sdlWindow, sdlRenderer);
-    ImGui_ImplSDLRenderer3_Init(sdlRenderer);
 }
 
 bool UWindow::ShouldClose()
 {
-    return bShouldClose;
+	return bShouldClose;
 }
 
-void UWindow::PollEvents()
-{
-    while (SDL_PollEvent(&sdlEvent)) {
+void UWindow::PollEvents
+() {
+	// Processa eventos do SDL
+	while (SDL_PollEvent(&sdlEvent)) {
+		ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
+		if (sdlEvent.type == SDL_EVENT_QUIT) {
+			bShouldClose = true;
+		}
+	}
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL3_NewFrame();
+	ImGui::NewFrame();
 
-        ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
-        switch (sdlEvent.type)
-        {
-        case SDL_EVENT_QUIT:
-            bShouldClose = true;
-            break;
-        case SDL_EVENT_KEY_DOWN:
-            if (sdlEvent.key.key == SDLK_ESCAPE)
-                bShouldClose = true;
-            break;
-        default:
-            break;
-        }
-    }
+	static UIManager uiManager(sdlWindow);
+	uiManager.RenderUI();
+	// Janela de teste básica do ImGui
+	ImGui::Begin("Janela Teste");
+	ImGui::Text("Se você está vendo isso, o ImGui está funcionando!");
+	ImGui::End();
 
-    // Inicia novos frames do ImGui e SDL
-    ImGui_ImplSDLRenderer3_NewFrame();
-    ImGui_ImplSDL3_NewFrame();
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	int width, height;
+	SDL_GetWindowSize(sdlWindow, &width, &height);
+	glViewport(0, 0, width, height);
+	// Limpeza do framebuffer com OpenGL
+	glClearColor(0.1f, 0.9f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Renderiza os dados do ImGui
 
-    ImGui::NewFrame();
-
-    // Exibe a janela "Hello World"
-    {
-        ImGui::Begin("Pasta");
-        {
-            if (ImGui::Button("Sair")) {
-                bShouldClose = true;
-            }
-            ImGui::Separator();
-            ImGui::Text("File System:");
-            fileSystem.ShowDirectoryTree(); // Exibe o sistema de arquivos
-        }
-        ImGui::End();
-    }
-
-    // Exibe a nova janela "vulkanjanelar"
-    {
-        ImGui::Begin("VulkanJanelar"); // Cria a janela Vulkan
-        {
-            ImGui::Text("Aqui sera renderizado o conte�do do Vulkan.");
-        }
-        ImGui::End();
-    } 
-
-    {
-        ImGui::Begin("Pastas"); // Cria a janela Vulkan
-        {
-            ImGui::Text("Aqui sera renderizado o conte�do do pasta.");
-            ImGui::Separator();
-            ImGui::Text("File System:");
-            fileSystem.ShowDirectoryTree();
-        }
-        ImGui::End();
-    }
-
-    // Renderiza os elementos
-    ImGui::Render();
-    SDL_SetRenderDrawColor(sdlRenderer, 25, 25, 255, 0xff);
-    SDL_RenderClear(sdlRenderer);
-    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), sdlRenderer);
-    SDL_RenderPresent(sdlRenderer);
-    SDL_Delay(1);
+	// Troca os buffers para exibir
+	if (openGLContext) {
+		openGLContext->SwapBuffers();
+	}
+	SDL_Delay(1);
 }

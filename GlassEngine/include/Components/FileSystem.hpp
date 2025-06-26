@@ -16,9 +16,13 @@ public:
     const std::filesystem::path& GetCurrentPath() const;
 
     void ShowDirectoryTree();
+    void CreateDirectory(const std::string& name);
+    void DeleteDirectory(const std::filesystem::path& path);
+    void RenameDirectory(const std::filesystem::path& oldPath, const std::string& newName);
+    void GoToParentDirectory();
 
 private:
     std::filesystem::path currentPath;
 };
 
-#endif // FILE_SYSTEM_HPP
+#endif 

@@ -6,7 +6,8 @@
 #include "Core/Macro.hpp"
 #include "Core/CommonTypes.hpp"
 #include "Components/FileSystem.hpp"
-
+#include "Renderer/OpenGLRenderer.hpp"
+#include "Context/OpenGLContext.hpp"
 
 class UWindow
 {
@@ -20,7 +21,8 @@ protected:
 private:
 	SDL_Event sdlEvent;
 	SDL_Window* sdlWindow = nullptr;
-	SDL_Renderer* sdlRenderer = nullptr;
+	//SDL_Renderer* sdlRenderer = nullptr;
+	OpenGLContext* openGLContext = nullptr;
 	bool bShouldClose = false;
 	UFileSystem fileSystem;
 };

@@ -60,7 +60,7 @@
       <PrecompiledHeaderFile>gpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;DEBUG;LOG_WARNING;LOG_INFORMATION;LOG_DEBUG;LOG_TRACE;LOG_DEFAULT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;C:\VulkanSDK\1.3.290.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;C:\VulkanSDK\1.3.290.0\Include;..\ThirdParty\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -86,7 +86,7 @@
       <PrecompiledHeaderFile>gpch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;C:\VulkanSDK\1.3.290.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\ThirdParty\SDL\include;..\ThirdParty\Imgui;C:\VulkanSDK\1.3.290.0\Include;..\ThirdParty\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -111,16 +111,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\FileSystem.hpp" />
+    <ClInclude Include="include\Context\OpenGLContext.hpp" />
     <ClInclude Include="include\Core\CommonTypes.hpp" />
     <ClInclude Include="include\Core\Macro.hpp" />
     <ClInclude Include="include\Presentation\Window.hpp" />
+    <ClInclude Include="include\Renderer\OpenGLRenderer.hpp" />
     <ClInclude Include="include\Runtime\Application.hpp" />
+    <ClInclude Include="include\UIManager\UIManager.hpp" />
     <ClInclude Include="include\gpch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Components\FileSystem.cpp" />
+    <ClCompile Include="src\Context\OpenGLContext.cpp" />
     <ClCompile Include="src\Presentation\Window.cpp" />
+    <ClCompile Include="src\Renderer\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Runtime\Application.cpp" />
+    <ClCompile Include="src\UIManager\UIManager.cpp" />
     <ClCompile Include="src\gpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -129,6 +135,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ThirdParty\Imgui\Imgui.vcxproj">
       <Project>{E087650D-4C9C-8DBE-151E-311E81F189EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Glad\Glad.vcxproj">
+      <Project>{BDD6857C-A90D-870D-52FA-6C103E10030F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

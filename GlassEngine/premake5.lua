@@ -23,7 +23,8 @@ project "GlassEngine"
         "include",
         "%{include_dir.SDL3}",
         "%{include_dir.Imgui}",
-        "%{include_dir.VulkanSDK}"
+        "%{include_dir.VulkanSDK}",
+        "%{include_dir.Glad}"
     }
 
     libdirs 
@@ -40,7 +41,9 @@ project "GlassEngine"
      {
         "SDL3.lib",
         "Imgui",
+        "Glad",
         "vulkan-1.lib"
+
      }
 
     filter "system:windows"
